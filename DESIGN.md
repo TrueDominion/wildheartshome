@@ -66,116 +66,111 @@ It is generated from `content/drops.ts`, recomputed in the browser against the r
 
 ---
 
-## Recommendation: Direction A, The Order Slip
 
-1. **It works on day one without photos.** A is type led; its photo slots are supporting players. B depends on big, confident, full bleed photography, and the brief is explicit that we must not ship a layout that only works with perfect photos.
-2. **It fits her voice.** Her copy is quiet, personal and family first. B's condensed caps shout over it.
-3. **Facts in mono builds trust.** Prices, dates, sizes and allergens in a consistent data face signal that this information is real and maintained. That is the honest urgency the brief asks for.
-4. **It ages and maintains better.** B's look depends on getting the sign style exactly right every week (stamps, highlight placement). A degrades gracefully when a non-developer edits a content file.
-5. **It avoids a template trap.** Condensed caps on cream with a red accent is now a common craft brewery and coffee subscription template. B would have to work hard not to look like one.
+## Decision: Direction B, The Stall Sign
 
-**Risk with A.** Serif plus mono on cream can drift toward a generic "editorial" Squarespace look. Guards: the drop slip as the single strong idea, a real asymmetric grid, her own photography, and no decorative flourishes beyond a subtle paper grain.
+Chosen at the checkpoint. My original recommendation was A. The risks I raised for B are real, so the system below is built to contain them.
 
-**What B does better.** More energy on Instagram and more visible "event" feel. If she later wants more of that, A can borrow one element: a single condensed caps label for "SOLD OUT", not the whole system.
+| Risk | Mitigation |
+|---|---|
+| Photo dependence | Every photo slot has a fixed ratio and a designed empty state (oat panel, condensed caption, shot number). Bands that would be full bleed photos collapse to a narrow captioned strip until a real photo exists. |
+| Condensed caps hurt reading | Big Shoulders is used only for headings, the wordmark, the board, buttons and short labels. Anything longer than about six words is Source Serif 4. |
+| Craft brewery template look | No badges, no circles, no stars, no faux distress textures. The stamp appears only for real state (sold out, sample). Butter yellow appears at most once per screen. |
+| Loudness drowns her voice | Her story sits in a calm serif column with generous space, the one place on the page where nothing is uppercase. |
+
+**Signature moment.** The board. This week's drop as a dark rye sign: drop date and order deadline in the header, every item in condensed caps with a butter price, a stamped SOLD OUT on items marked sold out, and a stamped SAMPLE when the drop data is placeholder. Driven entirely by `content/drops.ts`.
 
 ---
 
-## Full token set (Direction A)
+## Token set (Direction B)
 
 ### Color
 
 | Token | Hex | Use | Contrast |
 |---|---|---|---|
-| `--flour` | `#F5EFE4` | Page background | |
-| `--oat` | `#EBE1CF` | Sunken surfaces, photo placeholders, slip | |
-| `--ink` | `#22190F` | Primary text | 15.12 on flour, 13.35 on oat (AAA) |
-| `--ink-2` | `#5E4C3C` | Secondary text, captions | 7.13 on flour, 6.29 on oat (AAA) |
-| `--crust` | `#7A3E1B` | Primary buttons, links, "coming soon" | 7.25 on flour, 6.40 on oat; flour text on crust 7.25 (AAA) |
-| `--cinnamon` | `#A4572A` | Large display accents and non-text marks only | 4.62 on flour (AA). 4.08 on oat: large text only (18.66 px bold or 24 px and up) |
-| `--rosemary` | `#4D5B3A` | "Available" status | 6.39 on flour, 5.64 on oat |
-| `--rye` | `#2A1E16` | Dark band (story section, footer) | flour on rye 14.16 |
-| `--line` | `#CDBFA8` | Hairlines, dashed photo slot borders | 1.58 on flour. Decorative only, never the sole carrier of meaning |
-| `--focus` | `--ink` on light, `--flour` on rye | Focus ring | 15.12 and 14.16 |
+| `--oat` | `#EFE5D2` | Page background | |
+| `--oat-2` | `#E4D6BE` | Sunken surfaces, photo placeholders | |
+| `--rye` | `#33241A` | Text, rules, board background | 11.94 on oat, 10.41 on oat-2 (AAA) |
+| `--rye-2` | `#5A4636` | Secondary text, captions | 7.11 on oat, 6.20 on oat-2 (AAA) |
+| `--brick` | `#9E3B1B` | Buttons, numerals, display accent | 5.43 on oat, oat on brick 5.43 (AA). Never on rye (2.2) |
+| `--butter` | `#E8C15A` | Prices on the board, sticky bar, one highlight per screen | 8.67 on rye; rye on butter 8.67 |
+| `--stamp` | `#F08A63` | Stamp text and border on the board | 6.05 on rye |
+| `--oat-muted` | `#CDBFA8` | Secondary text on rye | 8.25 on rye |
+| `--sage` | `#4F5E38` | "Available" status label | 5.62 on oat |
+| `--line` | `#C4B396` | Hairlines, dashed photo slot borders | Decorative only |
 
 Rule: color never carries meaning alone. Every status has a text label.
 
 ### Typography
 
-Families: `Newsreader` (variable, optical size axis) and `IBM Plex Mono` (400, 500). Loaded through `next/font/google`, self hosted, `display: swap`, subset latin.
+Families: `Big Shoulders Display` (700, 800) and `Source Serif 4` (variable, optical size, 400 and 600, italic 400). Self hosted through `next/font/google`. Both SIL Open Font License 1.1.
 
 | Token | Size (390 px to 1280 px) | Line height | Family and settings |
 |---|---|---|---|
-| `display` | `clamp(2.75rem, 1.6rem + 5.6vw, 6rem)` | 0.95 | Newsreader 400, opsz 72, tracking -0.02em |
-| `h2` | `clamp(2rem, 1.4rem + 3vw, 3.5rem)` | 1.02 | Newsreader 400, opsz 60, tracking -0.015em |
-| `h3` | `clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem)` | 1.15 | Newsreader 500, opsz 24 |
-| `lede` | `1.1875rem` (19 px) | 1.5 | Newsreader 400 italic allowed for her signature line only |
-| `body` | `1.0625rem` (17 px) | 1.55 | Newsreader 400, opsz 16 |
-| `small` | `0.9375rem` (15 px) | 1.45 | Newsreader 400 |
-| `data` | `0.9375rem` (15 px) | 1.4 | Plex Mono 400, tabular figures. Prices, dates, sizes |
-| `label` | `0.8125rem` (13 px) | 1.3 | Plex Mono 500, uppercase, tracking 0.08em. Tags, eyebrows, buttons |
+| `display` | `clamp(4.5rem, 2.6rem + 8vw, 10rem)` | 0.84 | Big Shoulders 800, uppercase |
+| `h2` | `clamp(3rem, 2rem + 4.4vw, 6rem)` | 0.88 | Big Shoulders 800, uppercase |
+| `board-item` | `clamp(1.75rem, 1.4rem + 1.6vw, 2.75rem)` | 1 | Big Shoulders 800, uppercase |
+| `h3` | `clamp(1.5rem, 1.3rem + 0.8vw, 1.875rem)` | 1 | Big Shoulders 800, uppercase, tracking 0.01em |
+| `label` | `1rem` (16 px) | 1.1 | Big Shoulders 700, uppercase, tracking 0.05em. Buttons, eyebrows, tags |
+| `lede` | `clamp(1.1875rem, 1.1rem + 0.4vw, 1.375rem)` | 1.45 | Source Serif 4, 400 |
+| `body` | `1.0625rem` (17 px) | 1.55 | Source Serif 4, 400 |
+| `small` | `0.9375rem` (15 px) | 1.45 | Source Serif 4, 400 |
+| `quote` | `clamp(1.75rem, 1.3rem + 2vw, 2.75rem)` | 1.15 | Source Serif 4 italic, her signature line only |
 
-Measure: body text max 62ch. Minimum text size anywhere: 13 px.
+Prices use tabular figures. Measure: body max 60ch. Minimum text size anywhere: 15 px for serif, 16 px for condensed labels (condensed faces read small).
 
 ### Spacing
 
-4 px base. Tokens: `1`=4, `2`=8, `3`=12, `4`=16, `6`=24, `8`=32, `12`=48, `16`=64, `24`=96, `32`=128.
+4 px base: `1`=4, `2`=8, `3`=12, `4`=16, `6`=24, `8`=32, `12`=48, `16`=64, `24`=96, `32`=128.
 
-- Page gutter: 20 px mobile, 40 px at 1024 px and up.
-- Section padding: 64 px mobile, 128 px desktop.
-- Grid: 4 columns mobile, 8 at 768, 12 at 1024. Max content width 1280 px.
+- Page gutter: 20 px mobile, 40 px from 1024 px.
+- Section padding: 64 px mobile, 112 px desktop.
+- Grid: 4 columns mobile, 8 from 768 px, 12 from 1024 px. Max content width 1280 px.
 
-### Radius
+### Rules, radius, shadow
 
-- `0` for photos, sections, the slip.
-- `2px` for buttons and tags.
-- `999px` only for status dots.
-
-### Shadow
-
-None on surfaces. Paper sits flat. One exception:
-
-- `--shadow-bar: 0 -1px 0 var(--line), 0 -8px 24px rgb(34 25 15 / 0.08)` for the mobile sticky order bar.
-
-### Texture
-
-A single inline SVG noise layer on the page background at 4 percent opacity. Never on photos, never on text blocks inside rye bands. Removed in forced colors mode.
+- Rules do the structural work instead of cards: 3 px rye rule above each section title and each step, 1 px rules between list rows.
+- Radius `0` everywhere. Signs and paper are square. Status dots are the only round element.
+- No shadows. The sticky bar separates with a 3 px rye top rule.
 
 ### Motion
 
 | Token | Value | Use |
 |---|---|---|
-| `--dur-1` | 120 ms | Button press, link underline |
-| `--dur-2` | 200 ms | Hover, FAQ open, sticky bar enter |
-| `--dur-3` | 420 ms | Photo reveal on first view, once |
+| `--dur-1` | 120 ms | Button press |
+| `--dur-2` | 200 ms | Hover, FAQ open, sticky bar slide |
 | `--ease-out` | `cubic-bezier(0.2, 0.7, 0.2, 1)` | Default |
-| `--ease-in-out` | `cubic-bezier(0.6, 0, 0.2, 1)` | Sticky bar |
 
-Rules: photos fade and rise 8 px once on first view. Nothing loops, bounces, parallaxes or ticks. Under `prefers-reduced-motion: reduce` every duration is 0.
+Stamps sit at a fixed small rotation, they do not animate. Nothing loops, bounces or parallaxes. Under `prefers-reduced-motion: reduce` every duration is 0.
 
 ### Component rules
 
-- **Button, primary.** Crust fill, flour text, `label` style, 2 px radius, min height 48 px, horizontal padding 20 px. Hover: ink fill. Active: translate 1 px. Focus: 2 px focus ring, 3 px offset. Text always says where it goes: "Order on Hotplate".
-- **Link.** Ink text, 1 px underline at 4 px offset, thickens to 2 px on hover. External links carry a visually hidden "(opens Hotplate)" note.
-- **Drop slip.** Oat surface, perforated top edge via CSS mask, `data` text in a two column definition list (`dl`). States: open, closing soon (under 48 hours, wording only, no color alarm), closed, none. Rendered on the server, then reconciled in the browser against the current time.
-- **Menu item.** Name (h3), one line description (body), then one row of `data`: size, dotted leader, price. Tags row below. Optional 4:5 photo. Status label shown only when not plain "available".
-- **Allergen tag.** `label` style, 1 px `--ink-2` border, 2 px radius, ink text. Plain words ("Wheat", "Milk", "Eggs", "Sesame"), never icons.
-- **Status.** 8 px dot plus text. Available: rosemary. Sold out: ink-2 with "Sold out". Coming soon: crust. Seasonal: cinnamon dot, ink text.
-- **Photo slot.** Fixed aspect ratio box. Hero 4:5, menu item 4:5, drop items 1:1, story portrait 3:4, stall 3:2. Real image via `next/image` with blur placeholder. Missing image: oat fill, 1 px dashed `--line` border, a `label` reading "PHOTO TODO" plus the shot number from `SHOT_LIST.md`.
-- **FAQ.** Native `details` and `summary`. Hairline rule between rows. Plus rotates to minus over `--dur-2`. Works with no JavaScript.
-- **Sticky order bar (mobile only).** Appears once the hero Order button leaves the viewport. Full width, flour surface, `--shadow-bar`, respects the safe area inset. Contains the drop close line in `data` and the primary button. The page reserves matching bottom padding so the footer is never covered.
-- **Header.** Wordmark set in Newsreader display, anchor links on desktop, a single Order button always visible. No hamburger menu on mobile: the anchor links scroll horizontally as one quiet row under the wordmark.
+- **Button, primary.** Brick fill, oat text, `label` style, square, min height 48 px. Hover: rye fill. Active: 1 px down. Focus: 3 px rye outline at 3 px offset (oat outline on rye surfaces). Text names the destination: "Order on Hotplate".
+- **Header.** Two line condensed wordmark left, Order button right, 3 px rye rule below. Below 768 px the anchor links sit in one horizontally scrollable row. No hamburger.
+- **Hero.** Display headline left aligned, lede, button, and the drop status line ("Next drop Sat Nov 21. Orders close Thu, 8 PM.") as a butter highlighted strip. Hidden when no drop is scheduled. Not centered.
+- **The board.** Rye panel. Header row: "This week" in butter plus date and deadline right aligned. Rows: item name, variant, price in butter, 1 px rules. Stamps for SOLD OUT and SAMPLE. Empty state: "No drop on the board right now" plus the Hotplate alerts link.
+- **Menu item.** 4:5 photo slot, condensed name, serif description, a row with size and price, tags, status label when not plain available.
+- **Tag.** `label` style at 15 px, 1.5 px rye border, square, rye text. Words only.
+- **Status.** 8 px dot plus text label. Available: sage. Sold out: rye-2. Coming soon: brick. Seasonal: butter dot with rye text.
+- **Photo slot.** Fixed ratio: hero 4:5 (mobile) and 3:2 (desktop), menu 4:5, stall band 21:9, portrait 3:4. Real image through `next/image` with blur placeholder. Empty: oat-2 fill, 1 px dashed line border, condensed caption "Photo to come" plus shot number.
+- **Steps.** Three rows, 3 px rye rule above each, brick numeral, condensed title, serif body. No icons.
+- **FAQ.** Native `details` and `summary`, 1 px rules, condensed plus that rotates. Works without JavaScript.
+- **Sticky order bar (mobile).** Butter surface, 3 px rye top rule, deadline left, button right. Appears after the hero button leaves the viewport. The page reserves matching space at the bottom.
+- **Footer.** Rye band, oat text. Hotplate link, email, Instagram slot, "Worcester, MA", compliance slot.
 
 ### Accessibility commitments
 
-WCAG 2.1 AA minimum, AAA contrast for body text. Visible focus everywhere. Full keyboard path. Skip link. Real alt text written per photo in content files. Reduced motion honored. Status communicated by text, not color.
+WCAG 2.1 AA minimum, AAA contrast for body text. Visible focus, skip link, full keyboard path, real alt text per photo in content files, reduced motion honored, status by text and not color alone.
 
 ---
 
-## Decisions and assumptions stated up front
+## Decisions and assumptions
 
 - "Drop" is the word customers already know from Hotplate. Used everywhere.
-- The hero drop line hides itself when no drop is scheduled. The drop section stays and says so honestly, with a link to Hotplate alerts.
-- Dates and deadlines are recomputed in the browser so a static site never shows a stale "orders open".
-- Her name: the current site's public email uses "Lauren". I will sign her story as "Lauren" unless told otherwise.
-- The Hotplate handle on the live site is `tnbhofficial`, which does not match the bakery name. I will keep it in one config value and flag it.
-- Timing risk: Thanksgiving is November 26, 2026. If she runs a holiday drop, real dates and an order by date are needed within days.
+- Pickup location shows as "Worcester, MA" only. Exact address comes with the order confirmation.
+- Story is signed "Lauren".
+- Hotplate storefront confirmed as `hotplate.com/tnbhofficial`.
+- Drop and Thanksgiving data are samples by request. Every sample record carries `isSample: true`, which prints a visible SAMPLE stamp on the live site so no customer mistakes it for a real date.
+- Dates are recomputed in the browser so a static site never shows a stale "orders open".
+- No Motion library. The design needs two CSS transitions. Motion would add JavaScript weight against the Lighthouse target with nothing to show for it.
+- No shadcn components. The only candidate was the FAQ accordion, and native `details` is lighter and accessible without JavaScript.
