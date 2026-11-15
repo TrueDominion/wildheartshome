@@ -82,7 +82,7 @@
   line-height: 1.45;
 }
 @utility t-quote {
-  font-family: var(--font-serif);
+  font-family: var(--font-source-serif-italic), Georgia, serif;
   font-style: italic;
   font-size: clamp(1.75rem, 1.3rem + 2vw, 2.75rem);
   line-height: 1.15;

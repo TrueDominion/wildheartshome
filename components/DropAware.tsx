@@ -36,7 +36,7 @@ export function HeroDropLine({ drops }: { drops: ResolvedDrop[] }) {
           ? `Orders close ${closesPhrase(drop.closeAt, now)}`
           : `Pickup ${timeWindow(drop.pickupStart, drop.pickupEnd)}`}
       </p>
-      {drop.isSample && <SampleStamp className="absolute right-4 top-4 text-brick" />}
+      {drop.isSample && <SampleStamp className="absolute right-4 top-4 text-rye" />}
     </div>
   );
 }
