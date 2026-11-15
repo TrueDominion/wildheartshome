@@ -21,7 +21,7 @@ In priority order. Each item names the file it goes in. Nothing on the site was 
    - What if I miss the pickup window?
 9. **Instagram handle.** Goes in `instagram` in `content/site.ts` (no @). Hidden until set.
 10. **Original flower artwork.** The flower on the site is cut out of the style guide image. A vector (SVG) or high resolution transparent PNG from whoever drew it would be sharper. Goes in `public/flower.webp`.
-11. **Her signature (optional).** A photo of her real signature in dark ink on white paper would replace the typed "Lauren". Never fake one with a script font.
+11. **Her signature (optional).** The story sign off "Lauren" is set in her brand script, Beth Ellen. A scan of her real signature in dark ink on white paper could replace it.
 
 ## Confirmed at the checkpoint
 
