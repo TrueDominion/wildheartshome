@@ -103,7 +103,7 @@ Rule: color never carries meaning alone. Every status has a text label.
 
 ### Typography
 
-Families: `Big Shoulders Display` (700, 800) and `Source Serif 4` (variable, optical size, 400 and 600, italic 400). Self hosted through `next/font/google`. Both SIL Open Font License 1.1.
+Families: `Big Shoulders` (variable, optical size axis, 700 and 800; Google now ships the former Big Shoulders Display under this name) and `Source Serif 4` (variable, optical size, 400 and 600, italic 400). Self hosted through `next/font/google`. Both SIL Open Font License 1.1.
 
 | Token | Size (390 px to 1280 px) | Line height | Family and settings |
 |---|---|---|---|
