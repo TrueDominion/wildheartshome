@@ -1,0 +1,10 @@
+// Cloudflare deploy settings. Serves the static files that `npm run build` writes to ./out.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "wildheartshome",
+  "compatibility_date": "2026-11-15",
+  "assets": {
+    "directory": "./out",
+    "not_found_handling": "404-page"
+  }
+}
