@@ -152,7 +152,7 @@ Stamps sit at a fixed small rotation, they do not animate. Nothing loops, bounce
 - **Menu item.** 4:5 photo slot, condensed name, serif description, a row with size and price, tags, status label when not plain available.
 - **Tag.** `label` style at 15 px, 1.5 px rye border, square, rye text. Words only.
 - **Status.** 8 px dot plus text label. Available: sage. Sold out: rye-2. Coming soon: brick. Seasonal: butter dot with rye text.
-- **Photo slot.** Fixed ratio: hero 4:5 (mobile) and 3:2 (desktop), menu 4:5, stall band 21:9, portrait 3:4. Real image through `next/image` with blur placeholder. Empty: oat-2 fill, 1 px dashed line border, condensed caption "Photo to come" plus shot number.
+- **Photo slot.** Fixed ratio: hero 4:5, menu 4:5, stall band 21:9, portrait 3:4. Real image through `next/image` with blur placeholder. Empty: oat-2 fill, 1 px dashed line border, condensed caption "Photo to come" plus shot number.
 - **Steps.** Three rows, 3 px rye rule above each, brick numeral, condensed title, serif body. No icons.
 - **FAQ.** Native `details` and `summary`, 1 px rules, condensed plus that rotates. Works without JavaScript.
 - **Sticky order bar (mobile).** Butter surface, 3 px rye top rule, deadline left, button right. Appears after the hero button leaves the viewport. The page reserves matching space at the bottom.
