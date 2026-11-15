@@ -14,7 +14,7 @@ import { Status } from "./Status";
 
 function SampleStamp({ className = "" }: { className?: string }) {
   return (
-    <span className={`stamp text-[1.125rem] ${className}`}>
+    <span className={`stamp ${className}`}>
       Sample<span className="sr-only">: these dates are placeholders, not a real drop yet</span>
     </span>
   );
@@ -28,15 +28,17 @@ export function HeroDropLine({ drops }: { drops: ResolvedDrop[] }) {
   if (!drop) return null;
   const state = stateOf(drop, now);
   return (
-    <div className="relative mt-10 border-y-[3px] border-rye bg-butter px-4 py-4 text-rye">
-      <p className="t-label text-rye-2">{state === "open" ? "Next drop" : "Orders closed"}</p>
-      <p className="t-h2 mt-1 text-[clamp(2.25rem,1.8rem+2vw,3.25rem)]">{dayDate(drop.pickupStart)}</p>
-      <p className="t-label mt-2 text-[1.125rem]">
+    <div className="relative mt-10 rounded-3xl bg-mustard px-5 py-5 text-ink">
+      <p className="t-label">{state === "open" ? "Next drop" : "Orders closed"}</p>
+      <p className="mt-1 font-serif text-[clamp(1.75rem,1.5rem+1.2vw,2.25rem)] font-semibold leading-tight">
+        {dayDate(drop.pickupStart)}
+      </p>
+      <p className="t-body mt-1">
         {state === "open"
           ? `Orders close ${closesPhrase(drop.closeAt, now)}`
           : `Pickup ${timeWindow(drop.pickupStart, drop.pickupEnd)}`}
       </p>
-      {drop.isSample && <SampleStamp className="absolute right-4 top-4 text-rye" />}
+      {drop.isSample && <SampleStamp className="absolute right-4 top-4 text-ink" />}
     </div>
   );
 }
@@ -53,25 +55,25 @@ function BoardLines({ lines }: { lines: ResolvedDrop["lines"] }) {
         return (
           <li
             key={l.name + l.variant}
-            className="relative flex items-baseline justify-between gap-4 border-b border-oat/20 py-3"
+            className="relative flex items-baseline justify-between gap-4 border-b border-ink/15 py-3"
           >
-            <span className={sold ? "text-oat/50" : ""}>
+            <span className={sold ? "text-ink/45" : ""}>
               <span className="t-board">{l.name}</span>
-              {l.variant && <span className="t-label ml-2 whitespace-nowrap text-oat-muted">{l.variant}</span>}
-              {l.quantity !== undefined && <span className="t-label ml-2 text-oat-muted">{l.quantity} baked</span>}
+              {l.variant && <span className="t-label ml-2 whitespace-nowrap text-ink-2">{l.variant}</span>}
+              {l.quantity !== undefined && <span className="t-label ml-2 text-ink-2">{l.quantity} baked</span>}
               {l.status !== "available" && !sold && (
                 <span className="ml-3 align-middle">
-                  <Status status={l.status} onRye />
+                  <Status status={l.status} />
                 </span>
               )}
             </span>
-            {sold && <span className="stamp absolute right-20 top-2 text-[1.25rem] text-stamp">Sold out</span>}
+            {sold && <span className="stamp absolute right-24 top-3 text-coral-ink">Sold out</span>}
             {anyPrice && (
               <span className="tnum shrink-0 text-right">
                 {l.price === null ? (
-                  <span className="t-label text-oat-muted">On Hotplate</span>
+                  <span className="t-label text-ink-2">On Hotplate</span>
                 ) : (
-                  <span className="t-board text-butter">{money(l.price)}</span>
+                  <span className="t-board text-ink">{money(l.price)}</span>
                 )}
               </span>
             )}
@@ -84,8 +86,8 @@ function BoardLines({ lines }: { lines: ResolvedDrop["lines"] }) {
 
 function Fact({ term, children }: { term: string; children: React.ReactNode }) {
   return (
-    <div className="border-t border-oat/20 py-3">
-      <dt className="t-label text-oat-muted">{term}</dt>
+    <div className="border-t border-ink/15 py-3">
+      <dt className="t-label text-ink-2">{term}</dt>
       <dd className="t-lede mt-1">{children}</dd>
     </div>
   );
@@ -99,10 +101,10 @@ export function Board({ drops }: { drops: ResolvedDrop[] }) {
     return (
       <div className="grid gap-8 lg:grid-cols-12">
         <div className="lg:col-span-7">
-          <h2 id="this-week-title" className="t-h2 text-butter">
+          <h2 id="this-week-title" className="t-h2 text-ink">
             This week
           </h2>
-          <p className="t-board mt-6 border-t-2 border-butter pt-4">No drop on the board right now.</p>
+          <p className="t-board mt-6 border-t-2 border-ink pt-4">No drop on the board right now.</p>
         </div>
         <div className="lg:col-span-4 lg:col-start-9">
           <p className="t-lede">
@@ -120,11 +122,11 @@ export function Board({ drops }: { drops: ResolvedDrop[] }) {
   return (
     <div className="grid gap-10 lg:grid-cols-12">
       <div className="lg:col-span-7">
-        <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3 border-b-2 border-butter pb-4">
-          <h2 id="this-week-title" className="t-h2 text-butter">
+        <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3 border-b-2 border-ink pb-4">
+          <h2 id="this-week-title" className="t-h2 text-ink">
             This week
           </h2>
-          <p className="t-label text-[1.125rem] leading-tight md:text-right">
+          <p className="t-label leading-snug md:text-right">
             Pickup {dayDate(drop.pickupStart)}, {timeWindow(drop.pickupStart, drop.pickupEnd)}
             <br />
             {state === "open" ? `Order by ${weekday(drop.closeAt)}, ${clock(drop.closeAt)}` : "Orders closed"}
@@ -132,26 +134,26 @@ export function Board({ drops }: { drops: ResolvedDrop[] }) {
         </div>
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
           {!drop.lines.some((l) => l.price !== null) && (
-            <p className="t-label text-oat-muted">Prices are listed on Hotplate</p>
+            <p className="t-label text-ink-2">Prices are listed on Hotplate</p>
           )}
-          {drop.isSample && <SampleStamp className="text-stamp" />}
+          {drop.isSample && <SampleStamp className="text-coral-ink" />}
         </div>
         <BoardLines lines={drop.lines} />
-        {drop.note && <p className="t-body mt-4 text-oat-muted">{drop.note}</p>}
+        {drop.note && <p className="t-body mt-4 text-ink-2">{drop.note}</p>}
       </div>
 
       <div className="lg:col-span-4 lg:col-start-9">
         <dl>
           <Fact term="Where">
             {site.location.city}, {site.location.region}
-            <span className="t-small mt-1 block text-oat-muted">{site.location.addressNote}</span>
+            <span className="t-small mt-1 block text-ink-2">{site.location.addressNote}</span>
           </Fact>
           <Fact term="Orders close">
             {state === "open" ? (
               <>
                 {weekday(drop.closeAt)}, {clock(drop.closeAt)}
                 {leadDays > 0 && (
-                  <span className="t-small mt-1 block text-oat-muted">
+                  <span className="t-small mt-1 block text-ink-2">
                     {leadDays === 1 ? "One day" : `${leadDays} days`} before pickup, because everything is made to order.
                   </span>
                 )}
@@ -204,13 +206,13 @@ export function Steps({ drops }: { drops: ResolvedDrop[] }) {
   return (
     <ol className="mt-10 grid gap-x-10 md:grid-cols-3">
       {steps.map((s, i) => (
-        <li key={s.title} className="grid grid-cols-[3rem_1fr] border-t-[3px] border-rye pb-8 pt-4 md:block">
-          <span aria-hidden="true" className="t-h2 block text-brick md:mb-4">
+        <li key={s.title} className="grid grid-cols-[3rem_1fr] border-t-2 border-ink pb-8 pt-4 md:block">
+          <span aria-hidden="true" className="t-h2 block text-coral-ink md:mb-4">
             {i + 1}
           </span>
           <div>
             <h3 className="t-h3">{s.title}</h3>
-            <p className="t-body mt-2 max-w-[36ch] text-rye-2">{s.body}</p>
+            <p className="t-body mt-2 max-w-[36ch] text-ink-2">{s.body}</p>
           </div>
         </li>
       ))}
@@ -225,22 +227,26 @@ export function Holiday({ holiday, standing }: { holiday: ResolvedHoliday | null
   const live = holiday && holiday.pickupEnd > now ? holiday : null;
   if (!live) return <>{standing}</>;
   const open = stateOf(live, now) === "open";
+  const holidayItems = [
+    ...live.lines.map((l) => ({ name: l.name, variant: l.variant, price: l.price, description: "" })),
+    ...live.specials.map((s) => ({ name: s.name, variant: "", price: s.price, description: s.description })),
+  ];
 
   return (
     <div className="grid gap-10 lg:grid-cols-12">
       <div className="lg:col-span-6">
-        <p className="t-label text-brick">Holiday menu</p>
+        <p className="t-label text-coral-ink">Holiday menu</p>
         <h2 id="holiday-title" className="t-h2 mt-3">
           {live.title}
         </h2>
         {live.isSample && (
           <p className="mt-5">
-            <SampleStamp className="text-brick" />
+            <SampleStamp className="text-coral-ink" />
           </p>
         )}
-        <dl className="mt-8 grid grid-cols-2 gap-6 border-t-[3px] border-rye pt-4">
+        <dl className="mt-8 grid grid-cols-2 gap-6 border-t-2 border-ink pt-4">
           <div>
-            <dt className="t-label text-rye-2">Order by</dt>
+            <dt className="t-label text-ink-2">Order by</dt>
             <dd className="t-h3 mt-2">
               {open ? (
                 <>
@@ -253,7 +259,7 @@ export function Holiday({ holiday, standing }: { holiday: ResolvedHoliday | null
             </dd>
           </div>
           <div>
-            <dt className="t-label text-rye-2">Pickup</dt>
+            <dt className="t-label text-ink-2">Pickup</dt>
             <dd className="t-h3 mt-2">
               {dayDate(live.pickupStart)}
               <span className="t-small mt-1 block font-normal normal-case">{timeWindow(live.pickupStart, live.pickupEnd)}</span>
@@ -263,21 +269,17 @@ export function Holiday({ holiday, standing }: { holiday: ResolvedHoliday | null
         {open && <OrderButton position="holiday" className="mt-8" />}
       </div>
       <ul className="lg:col-span-5 lg:col-start-8">
-        {[...live.lines.map((l) => ({ name: l.name, variant: l.variant, price: l.price, description: "" })),
-          ...live.specials.map((s) => ({ name: s.name, variant: "", price: s.price, description: s.description }))].map((l) => (
-          <li key={l.name + l.variant} className="flex items-baseline justify-between gap-4 border-b border-rye/25 py-3">
+        {!holidayItems.some((l) => l.price !== null) && (
+          <li className="t-label pb-2 text-ink-2">Prices are listed on Hotplate</li>
+        )}
+        {holidayItems.map((l) => (
+          <li key={l.name + l.variant} className="flex items-baseline justify-between gap-4 border-b border-ink/15 py-3">
             <span>
               <span className="t-h3">{l.name}</span>
-              {l.variant && <span className="t-label ml-2 whitespace-nowrap text-rye-2">{l.variant}</span>}
-              {l.description && <span className="t-small mt-1 block text-rye-2">{l.description}</span>}
+              {l.variant && <span className="t-label ml-2 whitespace-nowrap text-ink-2">{l.variant}</span>}
+              {l.description && <span className="t-small mt-1 block text-ink-2">{l.description}</span>}
             </span>
-            <span className="tnum shrink-0">
-              {l.price === null ? (
-                <span className="t-label text-rye-2">Price on Hotplate</span>
-              ) : (
-                <span className="t-h3 text-brick">{money(l.price)}</span>
-              )}
-            </span>
+            {l.price !== null && <span className="tnum t-h3 shrink-0 text-coral-ink">{money(l.price)}</span>}
           </li>
         ))}
       </ul>
@@ -310,25 +312,25 @@ export function StickyOrderBar({ drops }: { drops: ResolvedDrop[] }) {
 
   return (
     <div
-      className={`fixed inset-x-0 bottom-0 z-40 border-t-[3px] border-rye bg-butter pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 transition-transform duration-200 ease-out md:hidden ${
+      className={`fixed inset-x-0 bottom-0 z-40 border-t-2 border-ink bg-mustard pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 transition-transform duration-200 ease-out md:hidden ${
         show ? "translate-y-0" : "translate-y-full"
       }`}
       aria-hidden={!show}
       inert={!show}
     >
       <div className="wrap flex items-center justify-between gap-4">
-        <p className="t-label text-[1.0625rem] leading-tight">
+        <p className="t-small leading-tight">
           {open ? (
             <>
               Orders close
               <br />
-              {closesPhrase(drop.closeAt, now)}
+              <strong className="font-semibold">{closesPhrase(drop.closeAt, now)}</strong>
             </>
           ) : (
             site.shortName
           )}
         </p>
-        <OrderButton position="sticky" label={open ? "Order on Hotplate" : "See Hotplate"} />
+        <OrderButton position="sticky" label={open ? "Order on Hotplate" : "See Hotplate"} className="shrink-0 whitespace-nowrap" />
       </div>
     </div>
   );

@@ -1,34 +1,37 @@
 import type { Metadata, Viewport } from "next";
-import { Big_Shoulders, Source_Serif_4 } from "next/font/google";
+import localFont from "next/font/local";
 import { Analytics } from "@/components/Analytics";
 import { site } from "@/content/site";
 import "./globals.css";
 
-const shoulders = Big_Shoulders({
-  subsets: ["latin"],
-  weight: ["700", "800"],
-  variable: "--font-shoulders",
+// Brand fonts from Lauren's style guide, self hosted and subset (see app/fonts/README.md).
+const bethEllen = localFont({
+  src: "./fonts/beth-ellen.woff2",
+  weight: "400",
+  variable: "--font-beth-ellen",
   display: "swap",
+  fallback: ["Brush Script MT", "cursive"],
 });
 
-// Static weights keep the font files small. Italic is only used further down the page
-// (her signature line), so it is not preloaded.
-const sourceSerif = Source_Serif_4({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-source-serif",
-  // "optional": on a slow first visit the page keeps the metric matched fallback instead of
-  // re-painting late, which protects LCP. The font is cached for every later visit.
+// Lora is a variable font (400 to 700) in one file. "optional" keeps the fallback on a slow
+// first visit instead of re-painting late, which protects LCP.
+const lora = localFont({
+  src: "./fonts/lora.woff2",
+  weight: "400 700",
+  variable: "--font-lora",
   display: "optional",
+  fallback: ["Georgia", "serif"],
 });
 
-const sourceSerifItalic = Source_Serif_4({
-  subsets: ["latin"],
-  weight: ["400"],
-  style: ["italic"],
-  variable: "--font-source-serif-italic",
+// Italic appears only further down (her signature line), so it is not preloaded.
+const loraItalic = localFont({
+  src: "./fonts/lora-italic.woff2",
+  weight: "400 700",
+  style: "italic",
+  variable: "--font-lora-italic",
   display: "swap",
   preload: false,
+  fallback: ["Georgia", "serif"],
 });
 
 const title = `${site.name} | Organic sourdough in ${site.location.city}, ${site.location.region}`;
@@ -50,13 +53,13 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#efe5d2",
+  themeColor: "#f7f6f2",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
   return (
-    <html lang="en-US" className={`${shoulders.variable} ${sourceSerif.variable} ${sourceSerifItalic.variable}`}>
+    <html lang="en-US" className={`${bethEllen.variable} ${lora.variable} ${loraItalic.variable}`}>
       <body>
         {children}
         {plausibleDomain && <Analytics domain={plausibleDomain} />}

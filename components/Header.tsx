@@ -11,12 +11,12 @@ const LINKS = [
 
 export function Header() {
   return (
-    <header className="border-b-[3px] border-rye bg-oat md:sticky md:top-0 md:z-30">
-      <div className="wrap flex items-center justify-between gap-6 py-3">
-        <a href="#top" className="t-label text-[1.625rem] leading-[0.9] tracking-[0.01em] no-underline">
-          Wild Hearts
-          <br />
-          Home Bakery
+    <header className="border-b border-ink/15 bg-paper md:sticky md:top-0 md:z-30">
+      <div aria-hidden="true" className="brand-band" />
+      <div className="wrap flex items-center justify-between gap-6 py-2">
+        <a href="#top" className="flex flex-col no-underline">
+          <span className="font-script text-[1.75rem] leading-[1.2]">Wild Hearts</span>
+          <span className="t-label mt-0.5 text-[0.6875rem] leading-none text-ink-2">Home Bakery</span>
           <span className="sr-only">, back to top</span>
         </a>
         <nav aria-label="Sections" className="hidden md:block">
@@ -30,9 +30,9 @@ export function Header() {
             ))}
           </ul>
         </nav>
-        <OrderButton position="header" label="Order" className="min-h-11 px-4 text-base" />
+        <OrderButton position="header" label="Order" className="min-h-11 px-5" />
       </div>
-      <nav aria-label="Sections" className="border-t border-rye/20 md:hidden">
+      <nav aria-label="Sections" className="border-t border-ink/15 md:hidden">
         <ul className="wrap flex gap-5 overflow-x-auto whitespace-nowrap py-2.5 [mask-image:linear-gradient(to_right,#000_85%,transparent)] [scrollbar-width:none]">
           {LINKS.map((l) => (
             <li key={l.href}>

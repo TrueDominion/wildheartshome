@@ -2,6 +2,49 @@
 
 Wild Hearts Home Bakery. A home baker in Worcester, Massachusetts. Weekend drops, front yard pickup, orders through Hotplate.
 
+## Current system: Lauren's brand style guide (November 2026)
+
+This section supersedes the Direction B colors and fonts further down. The layout, the drop board, the content model and the accessibility rules from Direction B all stay. Source: `design/brand/style-guide.png`.
+
+**Template search.** Asked to start from a free template. The 21st.dev connector was not connected in this session, GitHub access was limited to this repository, and Mobbin offers screenshots, not code. Swapping in a third party template would also have thrown away the content files, the drop logic and the accessibility work. So the existing site was re-skinned to the brand guide instead. One Mobbin pattern was borrowed: the thin multi color top band (MANA Yerba Mate), drawn here from her five palette colors.
+
+### Palette
+
+The five brand colors are fills, illustration and accents. All of them are too light to be text on paper (1.6 to 2.9:1), so text is ink, or a darker "-ink" shade.
+
+| Token | Hex | Use | Contrast |
+|---|---|---|---|
+| `paper` | `#F7F6F2` | Page background (from the guide) | |
+| `ink` | `#2E2623` | All body text, headings, footer surface | 13.7 on paper |
+| `ink-2` | `#5C504A` | Secondary text | 7.19 on paper |
+| `coral` | `#DF7E6B` | Buttons (ink text on coral 5.17) | |
+| `mustard` | `#E5BA50` | Hero drop card, sticky bar (ink text 8.09) | |
+| `lavender` | `#ADADC7` | Footer secondary text on ink (6.76) | |
+| `peach` | `#FCB196` | Footer wordmark on ink (8.37) | |
+| `olive` | `#C2AC59` | "Available" dot | |
+| `lav-tint` | `#E6E6EF` | This week board surface (ink 11.94) | |
+| `peach-tint` | `#FDE7DD` | Holiday surface, photo placeholders (ink 12.45) | |
+| `coral-ink` | `#A94A38` | Accent text: "to order.", category names, numerals, sign off | 5.22 on paper, 4.55 on lav-tint |
+| `olive-ink` | `#6E6229` | "Available" label | 5.64 on paper |
+
+### Type
+
+- **Beth Ellen** (her primary font): wordmark and display headings only (hero, section titles, her sign off). Never for dates, prices, labels or buttons: a script is too hard to read at small sizes and for facts.
+- **Lora** (her secondary font): everything people read, including labels and buttons.
+- Both self hosted from `app/fonts`, subset to basic Latin (Beth Ellen 22 KB, Lora variable 23 KB). Lora renamed internally per its Reserved Font Name clause. See `app/fonts/README.md`.
+
+### Shape and illustration
+
+- Soft shapes to match her blob swatches: pill buttons and tags, 24 px radius on cards, photos and placeholders.
+- Her hand drawn flower (`public/flower.webp`, cut from the style guide) appears twice: tucked over the hero photo and beside the footer wordmark. It is also the favicon. Ask her for the original vector or a high resolution PNG to replace the cut out.
+- Stamps (SOLD OUT, SAMPLE) are dashed pill tags, slightly tilted, in coral-ink or ink.
+
+### Measured after the restyle
+
+Lighthouse mobile on the static export: Performance 97, Accessibility 100, Best Practices 100, SEO 100, CLS 0, LCP 2.6 s on the local test server.
+
+---
+
 The site has one job: get a phone visitor from Instagram to a confident Hotplate order in under a minute, knowing what it costs, when and where to pick up, and whether it is safe for their family to eat.
 
 ## What both directions share
@@ -67,7 +110,7 @@ It is generated from `content/drops.ts`, recomputed in the browser against the r
 ---
 
 
-## Decision: Direction B, The Stall Sign
+## Decision: Direction B, The Stall Sign (layout kept; colors and fonts superseded above)
 
 Chosen at the checkpoint. My original recommendation was A. The risks I raised for B are real, so the system below is built to contain them.
 

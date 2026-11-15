@@ -84,7 +84,7 @@ Already connected to this GitHub repository. The settings that matter, under Set
 
 ## For a developer
 
-- Next.js (App Router, static export), TypeScript, Tailwind CSS v4. Fonts: Big Shoulders and Source Serif 4, self hosted through `next/font`.
+- Next.js (App Router, static export), TypeScript, Tailwind CSS v4. Fonts: Beth Ellen and Lora from her brand guide, self hosted and subset in `app/fonts` (see the README there).
 - `npm install`, then `npm run dev` for local work, `npm run build` for the production build, `npm run typecheck` to check types.
-- Design tokens and rules: `DESIGN.md`. Research: `research/NOTES.md`. Original site copy: `content/live-site-snapshot.md`.
+- Brand guide: `design/brand/style-guide.png`. Design tokens and rules: `DESIGN.md`. Research: `research/NOTES.md`. Original site copy: `content/live-site-snapshot.md`.
 - No shadcn components and no animation library: the design needs two CSS transitions and a native `details` accordion, so both would be unused weight.

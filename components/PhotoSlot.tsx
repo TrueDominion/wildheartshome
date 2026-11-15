@@ -13,10 +13,10 @@ type Props = {
   className?: string;
 };
 
-// A flat oat colored placeholder shown while a real photo loads.
+// A flat peach colored placeholder shown while a real photo loads.
 const BLUR =
   "data:image/svg+xml;base64," +
-  Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="4" height="5"><rect width="4" height="5" fill="#e4d6be"/></svg>').toString("base64");
+  Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="4" height="5"><rect width="4" height="5" fill="#fde7dd"/></svg>').toString("base64");
 
 /**
  * A photo with a fixed shape, so the page never jumps while loading.
@@ -28,16 +28,16 @@ export function PhotoSlot({ photo, ratio, emptyRatio, sizes, priority = false, c
       <div
         role="img"
         aria-label={`Photo to come: ${photo.alt}`}
-        className={`relative flex items-end border border-dashed border-line bg-oat-2 p-3 ${emptyRatio ?? ratio} ${className}`}
+        className={`relative flex items-end rounded-3xl border border-dashed border-coral/60 bg-peach-tint p-4 ${emptyRatio ?? ratio} ${className}`}
       >
-        <span className="t-label text-rye-2" aria-hidden="true">
+        <span className="t-label text-ink-2" aria-hidden="true">
           Photo to come · Shot {String(photo.shot).padStart(2, "0")}
         </span>
       </div>
     );
   }
   return (
-    <div className={`relative overflow-hidden bg-oat-2 ${ratio} ${className}`}>
+    <div className={`relative overflow-hidden rounded-3xl bg-peach-tint ${ratio} ${className}`}>
       <Image
         src={photo.src}
         alt={photo.alt}
