@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wild Hearts directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&family=Big+Shoulders+Display:wght@700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #d9d4cc; font-family: system-ui; padding: 32px; color: #222; }
+  .board { display: flex; gap: 48px; align-items: flex-start; justify-content: center; }
+  .col h1 { font: 600 15px/1.3 system-ui; margin-bottom: 4px; }
+  .col p.k { font: 13px/1.4 system-ui; color: #555; margin-bottom: 14px; max-width: 390px; }
+  .phone { width: 390px; height: 1400px; overflow: hidden; position: relative; box-shadow: 0 1px 0 rgba(0,0,0,.1), 0 20px 40px rgba(0,0,0,.12); }
+
+  /* ---------- Direction A ---------- */
+  .A { --flour:#F5EFE4; --oat:#EBE1CF; --ink:#22190F; --ink2:#5E4C3C; --crust:#7A3E1B; --cin:#A4572A; --ros:#4D5B3A; --rye:#2A1E16; --line:#CDBFA8;
+       background: var(--flour); color: var(--ink); font-family: 'Newsreader', serif; font-optical-sizing: auto; }
+  .A .mono, .A .label { font-family: 'IBM Plex Mono', monospace; }
+  .A .label { font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+  .A header { padding: 16px 20px 0; display: flex; justify-content: space-between; align-items: baseline; }
+  .A .word { font-size: 22px; letter-spacing: -.01em; }
+  .A .word i { color: var(--cin); }
+  .A nav { padding: 10px 20px 14px; display: flex; gap: 18px; border-bottom: 1px solid var(--line); color: var(--ink2); }
+  .A .btn { display: inline-block; background: var(--crust); color: var(--flour); padding: 14px 20px; border-radius: 2px; }
+  .A .btn.sm { padding: 9px 12px; font-size: 12px; }
+  .A .hero { padding: 28px 20px 0; }
+  .A .eyebrow { color: var(--ink2); margin-bottom: 14px; }
+  .A h2.d { font-size: 46px; line-height: .95; letter-spacing: -.02em; font-weight: 400; }
+  .A h2.d span { display: block; padding-left: 38px; font-style: italic; color: var(--crust); }
+  .A .lede { font-size: 19px; line-height: 1.45; margin: 18px 0 22px; max-width: 32ch; color: var(--ink2); }
+  .A .row { display: grid; grid-template-columns: 1.15fr .85fr; gap: 12px; padding: 26px 0 0 20px; align-items: start; }
+  .A .slot { background: var(--oat); border: 1px dashed var(--line); display: flex; align-items: flex-end; padding: 10px; color: var(--ink2); }
+  .A .slot .label { font-size: 11px; }
+  .A .slip { margin-top: 44px; background: var(--oat); padding: 22px 16px 16px; position: relative;
+             -webkit-mask: radial-gradient(circle 5px at 8px 0, transparent 98%, #000) -8px 0/16px 100% repeat-x;
+                     mask: radial-gradient(circle 5px at 8px 0, transparent 98%, #000) -8px 0/16px 100% repeat-x; }
+  .A .slip dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; }
+  .A .slip dt { color: var(--ink2); font-size: 12px; letter-spacing: .08em; padding-top: 1px; }
+  .A .slip .rel { margin-top: 10px; font-family: 'IBM Plex Mono'; font-size: 13px; color: var(--crust); }
+  .A section.menu { padding: 64px 20px 0; }
+  .A h3.s { font-size: 34px; line-height: 1.02; font-weight: 400; letter-spacing: -.015em; margin-bottom: 6px; }
+  .A .cat { margin-top: 28px; padding-top: 10px; border-top: 1px solid var(--ink); display: flex; justify-content: space-between; }
+  .A .item { padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .A .item h4 { font-size: 22px; font-weight: 500; line-height: 1.15; }
+  .A .item p { font-size: 16px; line-height: 1.5; color: var(--ink2); margin: 6px 0 10px; }
+  .A .price { display: flex; align-items: baseline; gap: 8px; font-family: 'IBM Plex Mono'; font-size: 15px; }
+  .A .lead { flex: 1; border-bottom: 1px dotted var(--ink2); transform: translateY(-4px); }
+  .A .tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+  .A .tag { font-family: 'IBM Plex Mono'; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; border: 1px solid var(--ink2); border-radius: 2px; padding: 3px 6px; }
+  .A .todo { color: var(--crust); }
+  .A .sticky { position: absolute; left: 0; right: 0; bottom: 0; background: var(--flour); padding: 12px 20px 22px; display: flex; justify-content: space-between; align-items: center;
+               box-shadow: 0 -1px 0 var(--line), 0 -8px 24px rgb(34 25 15 / .08); }
+  .A .sticky .mono { font-size: 13px; color: var(--ink2); line-height: 1.35; }
+  .A .story { background: var(--rye); color: var(--flour); padding: 56px 20px; margin-top: 56px; }
+  .A .story q { font-style: italic; font-size: 30px; line-height: 1.1; display: block; quotes: none; }
+  .A .story .label { color: #CDBFA8; margin-bottom: 16px; display: block; }
+
+  /* ---------- Direction B ---------- */
+  .B { --oat:#EFE5D2; --rye:#33241A; --brick:#9E3B1B; --butter:#E8C15A; --ink2:#5A4636;
+       background: var(--oat); color: var(--rye); font-family: 'Source Serif 4', serif; }
+  .B .cond { font-family: 'Big Shoulders Display', sans-serif; text-transform: uppercase; font-weight: 800; }
+  .B header { padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--rye); }
+  .B .word { font-size: 26px; letter-spacing: .01em; line-height: .9; }
+  .B .btn { background: var(--brick); color: var(--oat); padding: 12px 18px; font-family: 'Big Shoulders Display'; font-weight: 700; font-size: 18px; letter-spacing: .04em; text-transform: uppercase; display: inline-block; }
+  .B .btn.sm { padding: 8px 12px; font-size: 15px; }
+  .B .hero { padding: 26px 20px 0; }
+  .B h2.d { font-size: 84px; line-height: .84; letter-spacing: -.005em; }
+  .B h2.d em { font-style: normal; color: var(--brick); }
+  .B .lede { font-size: 18px; line-height: 1.45; margin: 16px 0 20px; }
+  .B .bleed { margin-top: 28px; height: 300px; background: #d8ccb6; display: flex; align-items: flex-end; padding: 12px 20px; font-family: 'Big Shoulders Display'; font-weight: 700; letter-spacing: .06em; font-size: 14px; color: var(--ink2); text-transform: uppercase; }
+  .B .boardsign { background: var(--rye); color: var(--oat); margin: 0; padding: 26px 20px 30px; }
+  .B .boardsign .top { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid var(--butter); padding-bottom: 10px; margin-bottom: 8px; }
+  .B .boardsign h3 { font-size: 46px; line-height: .9; color: var(--butter); }
+  .B .boardsign .when { font-family: 'Big Shoulders Display'; font-weight: 700; font-size: 17px; letter-spacing: .04em; text-transform: uppercase; text-align: right; line-height: 1.1; }
+  .B .bi { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0; border-bottom: 1px solid rgba(239,229,210,.2); position: relative; }
+  .B .bi .n { font-size: 30px; line-height: 1; }
+  .B .bi .p { font-family: 'Big Shoulders Display'; font-weight: 800; color: var(--butter); font-size: 26px; }
+  .B .bi.sold .n { opacity: .45; }
+  .B .stamp { position: absolute; right: 40px; top: 6px; transform: rotate(-8deg); border: 3px solid var(--brick); color: #F09A7A; padding: 2px 8px; font-family: 'Big Shoulders Display'; font-weight: 800; font-size: 20px; letter-spacing: .06em; }
+  .B .info { padding: 40px 20px; }
+  .B .info h3 { font-size: 52px; line-height: .88; margin-bottom: 18px; }
+  .B .step { display: grid; grid-template-columns: 44px 1fr; border-top: 3px solid var(--rye); padding: 12px 0 16px; }
+  .B .step b { font-family: 'Big Shoulders Display'; font-weight: 800; font-size: 32px; color: var(--brick); line-height: 1; }
+  .B .step p { font-size: 17px; line-height: 1.45; }
+  .B .step p strong { font-family: 'Big Shoulders Display'; font-weight: 800; text-transform: uppercase; font-size: 22px; letter-spacing: .02em; display: block; }
+  .B .sticky { position: absolute; left: 0; right: 0; bottom: 0; background: var(--butter); padding: 12px 20px 22px; display: flex; justify-content: space-between; align-items: center; border-top: 3px solid var(--rye); }
+  .B .sticky span { font-family: 'Big Shoulders Display'; font-weight: 800; text-transform: uppercase; font-size: 20px; line-height: 1; }
+  .note { font: 12px/1.4 system-ui; color: #555; margin-top: 10px; max-width: 390px; }
+</style>
+</head>
+<body>
+<div class="board">
+
+  <div class="col">
+    <h1>A. The Order Slip (recommended)</h1>
+    <p class="k">Newsreader + IBM Plex Mono. Flour, ink, crust. Type led, works before photos exist. Signature: the drop slip.</p>
+    <div class="phone A">
+      <header><div class="word">Wild Hearts <i>Home Bakery</i></div><a class="btn sm label">Order</a></header>
+      <nav class="label" style="font-size:12px"><span>This week</span><span>Menu</span><span>How it works</span><span>Story</span></nav>
+      <div class="hero">
+        <div class="eyebrow label">Small batch · Made to order · Worcester</div>
+        <h2 class="d">Organic sourdough, <span>baked to order.</span></h2>
+        <p class="lede">Fresh baked cookies and gooey buttercream cinnamon rolls from my home kitchen.</p>
+        <a class="btn label">Order on Hotplate</a>
+      </div>
+      <div class="row">
+        <div class="slot" style="aspect-ratio:4/5"><span class="label">Photo todo · shot 01 · loaf, crumb</span></div>
+        <div>
+          <div class="slot" style="aspect-ratio:1/1; margin-top:40px"><span class="label">Shot 07 · rolls</span></div>
+        </div>
+      </div>
+      <div style="padding:0 20px">
+        <div class="slip">
+          <dl>
+            <dt>NEXT DROP</dt><dd>SAT NOV 21</dd>
+            <dt>ORDERS CLOSE</dt><dd>THU NOV 19, 8 PM</dd>
+            <dt>PICKUP</dt><dd>9 TO 11 AM, [AREA]</dd>
+          </dl>
+          <div class="rel">Closes in 4 days. Sample dates.</div>
+        </div>
+      </div>
+      <section class="menu">
+        <div class="label" style="color:var(--ink2)">The menu</div>
+        <h3 class="s">Sourdough</h3>
+        <div class="cat label"><span>Organic sourdough bread</span><span>3 loaves</span></div>
+        <div class="item">
+          <h4>Classic Sourdough Loaf</h4>
+          <p>The original. A crusty, chewy loaf with an open, airy crumb. Perfect for toast, sandwiches, or just warm with butter.</p>
+          <div class="price"><span>[SIZE]</span><span class="lead"></span><span class="todo">$ TODO</span></div>
+          <div class="tags"><span class="tag">Wheat</span><span class="tag todo" style="border-color:var(--crust)">Allergens to confirm</span></div>
+        </div>
+        <div class="item">
+          <h4>Garlic &amp; Rosemary Loaf</h4>
+          <p>Fresh garlic and rosemary folded into our classic sourdough. Savory, aromatic, and impossible to stop eating.</p>
+          <div class="price"><span>[SIZE]</span><span class="lead"></span><span class="todo">$ TODO</span></div>
+        </div>
+      </section>
+      <div class="story">
+        <span class="label">From my kitchen</span>
+        <q>If I wouldn't feed it to my family, I won't feed it to yours.</q>
+      </div>
+      <div class="sticky"><span class="mono">Orders close<br>Thu 8 PM</span><a class="btn label">Order on Hotplate</a></div>
+    </div>
+    <p class="note">Sticky bar shown for illustration. In the build it appears only after the hero button scrolls away.</p>
+  </div>
+
+  <div class="col">
+    <h1>B. The Stall Sign</h1>
+    <p class="k">Big Shoulders Display + Source Serif 4. Oat, rye, brick, butter. Louder, poster like, photo dependent. Signature: the weekly board.</p>
+    <div class="phone B">
+      <header><div class="word cond">Wild Hearts<br>Home Bakery</div><a class="btn sm">Order</a></header>
+      <div class="hero">
+        <h2 class="d cond">Baked <em>to order.</em></h2>
+        <p class="lede">Organic sourdough, fresh baked cookies, and gooey buttercream cinnamon rolls from my home kitchen.</p>
+        <a class="btn">Order on Hotplate</a>
+      </div>
+      <div class="bleed">Photo todo · stall, full bleed</div>
+      <div class="boardsign">
+        <div class="top"><h3 class="cond">This week</h3><div class="when">Sat Nov 21<br>Order by Thu 8 PM</div></div>
+        <div class="bi"><span class="n cond">Classic loaf</span><span class="p">$ ?</span></div>
+        <div class="bi"><span class="n cond">Garlic &amp; rosemary</span><span class="p">$ ?</span></div>
+        <div class="bi sold"><span class="n cond">Cinnamon 4 pack</span><span class="p">$ ?</span><span class="stamp">Sold out</span></div>
+        <div class="bi"><span class="n cond">Snickerdoodles</span><span class="p">$ ?</span></div>
+      </div>
+      <div class="info">
+        <h3 class="cond">How it works</h3>
+        <div class="step"><b>1</b><p><strong>Order on Hotplate</strong>Before Thursday 8 pm. Sample time.</p></div>
+        <div class="step"><b>2</b><p><strong>Pick up Saturday</strong>9 to 11 am in [area]. Address comes with your confirmation.</p></div>
+        <div class="step"><b>3</b><p><strong>Eat it warm</strong>Placeholder copy for comparison only.</p></div>
+      </div>
+      <div class="sticky"><span>Closes Thu 8 PM</span><a class="btn sm">Order</a></div>
+    </div>
+    <p class="note">Sample dates and placeholder prices. Not real data.</p>
+  </div>
+
+</div>
+</body>
+</html>
