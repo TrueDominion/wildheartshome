@@ -9,16 +9,15 @@ const LABEL: Record<StatusType, string> = {
 
 const DOT: Record<StatusType, string> = {
   available: "bg-olive",
-  "sold-out": "bg-ink-2",
+  "sold-out": "bg-dark",
   "coming-soon": "bg-coral",
   seasonal: "bg-mustard",
 };
 
 /** A dot plus a word. The word carries the meaning; the dot only helps scanning. */
 export function Status({ status }: { status: StatusType }) {
-  const text = status === "available" ? "text-olive-ink" : "text-ink-2";
   return (
-    <span className={`t-label inline-flex items-center gap-2 ${text}`}>
+    <span className="t-label inline-flex items-center gap-2">
       <span aria-hidden="true" className={`size-2 rounded-full ${DOT[status]}`} />
       {LABEL[status]}
     </span>

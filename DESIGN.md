@@ -2,6 +2,39 @@
 
 Wild Hearts Home Bakery. A home baker in Worcester, Massachusetts. Weekend drops, front yard pickup, orders through Hotplate.
 
+## Current system: 8B florist template, in her brand (November 18, 2026)
+
+Supersedes the layout notes below. Her colors and fonts (next section) still apply.
+
+**Source.** "Moth & Marigold" florist template by 8B, MIT licensed (`design/florist-template/`, original at github.com/8bsite/florist-website-template). Code adapted with credit in `app/globals.css`, `THIRD_PARTY_NOTICES.md` and a small footer link.
+
+**Adopted from the template**
+- Type roles: uppercase serif headings (Lora in place of Brygada 1918), small tracked labels, giant width filling script lines (Beth Ellen in place of Playwrite US Trad).
+- Square corners, hairline rules, light and dark bands taking turns, one colored band (holiday).
+- Fixed top bar that hides on scroll down; full screen phone menu.
+- Opening: width filling wordmark ("WILD *Hearts* HOME BAKERY", her script word tilted like the template's "and"), then a dark statement band that rises over it as a widening dome.
+- This week's drop: priced rows with rules that draw in (template "standing orders").
+- Menu: list beside one held frame that follows the row you are reading (template "on the bench").
+- Holiday: colored band with dated rows (template "night school").
+- How it works: three panels that slide sideways while the section holds, on screens 768 px and wider (template "dusk").
+- Her story: letter card beside a held portrait (template "notes").
+- Closing: card sliding in over the pickup table photo (template "contact"). Footer wordmark that assembles as you reach it.
+- Button with a fill that rises from the bottom on hover, redrawing link underline, arrow chips, lift and rule reveals.
+
+**Mapped to her palette.** Blush ground: peach tint `#FDE7DD`. Chocolate: her ink `#2E2623`. Hot pink script on dark: coral `#DF7E6B` (5.17:1). Magenta script on light and the holiday band: `#A94A38` (4.74:1 on the ground, 5.22:1 with paper text).
+
+**Not adopted, and why**
+- The 27 Unsplash photos: the brief rules out stock photography. Empty photo slots show her flower on a peach panel with the shot number.
+- Events, growers, portfolio and order form sections: no real content for them, and Hotplate is the checkout.
+- The smooth wheel script: it takes over scrolling, which the brief bans.
+- TikTok Sans and Brygada 1918: her guide specifies Beth Ellen and Lora.
+
+**Motion rules.** All scroll linked motion runs only when the browser supports scroll driven animations and the visitor has not asked for reduced motion (`html[data-live]`, set by a one line script in `<head>`). Everywhere else every section shows its finished layout. Nothing loops, nothing hijacks the scroll.
+
+**Measured.** Lighthouse mobile on the static export: Performance 99, Accessibility 100, Best Practices 100, SEO 100, CLS 0, LCP 2.0 to 2.1 s.
+
+---
+
 ## Current system: Lauren's brand style guide (November 2026)
 
 This section supersedes the Direction B colors and fonts further down. The layout, the drop board, the content model and the accessibility rules from Direction B all stay. Source: `design/brand/style-guide.png`.

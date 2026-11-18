@@ -9,7 +9,7 @@ export function Flower({ className = "", priority = false }: { className?: strin
       width={440}
       height={608}
       priority={priority}
-      className={`pointer-events-none h-auto select-none ${className}`}
+      className={`pointer-events-none select-none ${className}`}
     />
   );
 }

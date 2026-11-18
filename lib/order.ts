@@ -1,7 +1,7 @@
 import { site } from "@/content/site";
 
 /** Where an Order button sits. Shows up in Hotplate referral data and in analytics. */
-export type OrderPosition = "header" | "hero" | "board" | "holiday" | "closing" | "sticky" | "footer";
+export type OrderPosition = "header" | "hero" | "board" | "menu" | "holiday" | "closing" | "sticky" | "footer";
 
 export function orderUrl(position: OrderPosition): string {
   const url = new URL(site.hotplateUrl);

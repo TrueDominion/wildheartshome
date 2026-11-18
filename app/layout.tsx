@@ -34,6 +34,9 @@ const loraItalic = localFont({
   fallback: ["Georgia", "serif"],
 });
 
+const MOTION_GATE =
+  "if(matchMedia('(prefers-reduced-motion: no-preference)').matches&&CSS.supports('animation-timeline: view()'))document.documentElement.setAttribute('data-live','')";
+
 const title = `${site.name} | Organic sourdough in ${site.location.city}, ${site.location.region}`;
 
 export const metadata: Metadata = {
@@ -53,13 +56,21 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f7f6f2",
+  themeColor: "#fde7dd",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
   return (
-    <html lang="en-US" className={`${bethEllen.variable} ${lora.variable} ${loraItalic.variable}`}>
+    <html
+      lang="en-US"
+      className={`${bethEllen.variable} ${lora.variable} ${loraItalic.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        {/* Turns on scroll-linked motion only where it is supported and wanted. */}
+        <script dangerouslySetInnerHTML={{ __html: MOTION_GATE }} />
+      </head>
       <body>
         {children}
         {plausibleDomain && <Analytics domain={plausibleDomain} />}
