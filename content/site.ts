@@ -29,14 +29,24 @@ export const site = {
 
   hero: {
     eyebrow: "Small-batch · Made to order",
-    headline: ["Baked", "to order."],
-    // From the live site, lightly edited: em dash removed, "baked to order" moved to the headline.
+    // Wordmark: first word heavy, second in her script, third line heavy.
+    wordmark: { first: "Wild", script: "Hearts", second: "Home Bakery" },
+    tagline: "Organic sourdough, cookies & cinnamon rolls",
+    // From the live site, lightly edited: em dash removed.
     lede: "Organic sourdough, fresh-baked cookies, and gooey buttercream cinnamon rolls from my home kitchen.",
     photo: {
       src: null,
       alt: "A Classic Sourdough Loaf cut open to show its airy crumb.",
       shot: 1,
     },
+  },
+
+  /** The dark band that rises over the first screen. All her words. */
+  night: {
+    label: "From my kitchen",
+    statement:
+      "Every loaf, cookie, and cinnamon roll comes from my home kitchen, made in small batches with simple, honest ingredients.",
+    ribbon: "baked to order",
   },
 
   story: {
@@ -66,6 +76,14 @@ export const site = {
     heading: "Holiday specials",
     body: "During the holidays, I put together special seasonal menus. Think festive flavors, gift-worthy treats, and limited-time bakes you won't find the rest of the year.",
     follow: "Follow along on Hotplate so you don't miss the next holiday drop.",
+  },
+
+  /** Short lines that introduce sections. Written for the site; edit freely in her voice. */
+  sections: {
+    menuIntro:
+      "What I bake, with sizes, prices and allergens. Each week's drop on Hotplate is chosen from this list.",
+    howIntro: "Three plain steps, from Hotplate to your table.",
+    closingNote: "Every drop is ordered and paid for on Hotplate.",
   },
 
   /** Footer line, from the live site. */
