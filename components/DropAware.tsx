@@ -3,181 +3,163 @@
 // Everything on the page that depends on today's date lives here,
 // so it can be recomputed in the visitor's browser.
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { site } from "@/content/site";
 import { currentDrop, stateOf, type ResolvedDrop, type ResolvedHoliday } from "@/lib/drop-state";
 import { money } from "@/lib/order";
 import { clock, closesPhrase, dayDate, timeWindow, weekday } from "@/lib/time";
+import { Flower } from "./Flower";
 import { OrderButton } from "./OrderButton";
 import { useNow } from "./Now";
 import { Status } from "./Status";
 
 function SampleStamp({ className = "" }: { className?: string }) {
   return (
-    <span className={`stamp text-[1.125rem] ${className}`}>
+    <span className={`stamp ${className}`}>
       Sample<span className="sr-only">: these dates are placeholders, not a real drop yet</span>
     </span>
   );
 }
 
-/* ---------- Hero status strip ---------- */
+const leadDays = (d: ResolvedDrop) => Math.round((d.pickupStart - d.closeAt) / 86_400_000);
+const longDate = (ms: number) => `${weekday(ms)}, ${dayDate(ms).split(", ")[1]}`;
 
-export function HeroDropLine({ drops }: { drops: ResolvedDrop[] }) {
+/* ---------- Hero drop status ---------- */
+
+export function HeroDrop({ drops }: { drops: ResolvedDrop[] }) {
   const now = useNow();
   const drop = currentDrop(drops, now);
   if (!drop) return null;
-  const state = stateOf(drop, now);
+  const open = stateOf(drop, now) === "open";
   return (
-    <div className="relative mt-10 border-y-[3px] border-rye bg-butter px-4 py-4 text-rye">
-      <p className="t-label text-rye-2">{state === "open" ? "Next drop" : "Orders closed"}</p>
-      <p className="t-h2 mt-1 text-[clamp(2.25rem,1.8rem+2vw,3.25rem)]">{dayDate(drop.pickupStart)}</p>
-      <p className="t-label mt-2 text-[1.125rem]">
-        {state === "open"
+    <div className="op__drop">
+      <p className="t-label">
+        {open ? "Next drop" : "Orders closed"} {drop.isSample && <SampleStamp className="ml-2 text-script-2" />}
+      </p>
+      <p className="t-h4">{longDate(drop.pickupStart)}</p>
+      <p className="t-small">
+        {open
           ? `Orders close ${closesPhrase(drop.closeAt, now)}`
           : `Pickup ${timeWindow(drop.pickupStart, drop.pickupEnd)}`}
       </p>
-      {drop.isSample && <SampleStamp className="absolute right-4 top-4 text-rye" />}
     </div>
   );
 }
 
-/* ---------- The board ---------- */
+/* ---------- This week's drop ---------- */
 
-function BoardLines({ lines }: { lines: ResolvedDrop["lines"] }) {
-  // When no price is set yet, one note in the header beats repeating it on every row.
-  const anyPrice = lines.some((l) => l.price !== null);
-  return (
-    <ul className="mt-2">
-      {lines.map((l) => {
-        const sold = l.status === "sold-out";
-        return (
-          <li
-            key={l.name + l.variant}
-            className="relative flex items-baseline justify-between gap-4 border-b border-oat/20 py-3"
-          >
-            <span className={sold ? "text-oat/50" : ""}>
-              <span className="t-board">{l.name}</span>
-              {l.variant && <span className="t-label ml-2 whitespace-nowrap text-oat-muted">{l.variant}</span>}
-              {l.quantity !== undefined && <span className="t-label ml-2 text-oat-muted">{l.quantity} baked</span>}
-              {l.status !== "available" && !sold && (
-                <span className="ml-3 align-middle">
-                  <Status status={l.status} onRye />
-                </span>
-              )}
-            </span>
-            {sold && <span className="stamp absolute right-20 top-2 text-[1.25rem] text-stamp">Sold out</span>}
-            {anyPrice && (
-              <span className="tnum shrink-0 text-right">
-                {l.price === null ? (
-                  <span className="t-label text-oat-muted">On Hotplate</span>
-                ) : (
-                  <span className="t-board text-butter">{money(l.price)}</span>
-                )}
-              </span>
-            )}
-          </li>
-        );
-      })}
-    </ul>
-  );
-}
-
-function Fact({ term, children }: { term: string; children: React.ReactNode }) {
-  return (
-    <div className="border-t border-oat/20 py-3">
-      <dt className="t-label text-oat-muted">{term}</dt>
-      <dd className="t-lede mt-1">{children}</dd>
-    </div>
-  );
-}
-
-export function Board({ drops }: { drops: ResolvedDrop[] }) {
+export function ThisWeek({ drops }: { drops: ResolvedDrop[] }) {
   const now = useNow();
   const drop = currentDrop(drops, now);
 
   if (!drop) {
     return (
-      <div className="grid gap-8 lg:grid-cols-12">
-        <div className="lg:col-span-7">
-          <h2 id="this-week-title" className="t-h2 text-butter">
-            This week
+      <>
+        <div className="head">
+          <p className="t-label">This week&apos;s drop</p>
+          <h2 id="this-week-title" className="t-h2" data-motion="lift">
+            Nothing on the board right now
           </h2>
-          <p className="t-board mt-6 border-t-2 border-butter pt-4">No drop on the board right now.</p>
-        </div>
-        <div className="lg:col-span-4 lg:col-start-9">
-          <p className="t-lede">
+          <p className="head__intro">
             Every drop goes up on Hotplate. Follow along on Hotplate so you don&apos;t miss the next one.
           </p>
-          <OrderButton position="board" label="Follow on Hotplate" className="mt-6" />
         </div>
-      </div>
+        <OrderButton position="board" label="Follow on Hotplate" />
+      </>
     );
   }
 
-  const state = stateOf(drop, now);
-  const leadDays = Math.round((drop.pickupStart - drop.closeAt) / 86_400_000);
+  const open = stateOf(drop, now) === "open";
+  const days = leadDays(drop);
+  const anyPrice = drop.lines.some((l) => l.price !== null);
 
   return (
-    <div className="grid gap-10 lg:grid-cols-12">
-      <div className="lg:col-span-7">
-        <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3 border-b-2 border-butter pb-4">
-          <h2 id="this-week-title" className="t-h2 text-butter">
-            This week
-          </h2>
-          <p className="t-label text-[1.125rem] leading-tight md:text-right">
-            Pickup {dayDate(drop.pickupStart)}, {timeWindow(drop.pickupStart, drop.pickupEnd)}
-            <br />
-            {state === "open" ? `Order by ${weekday(drop.closeAt)}, ${clock(drop.closeAt)}` : "Orders closed"}
+    <>
+      <div className="head">
+        <p className="t-label">This week&apos;s drop</p>
+        <h2 id="this-week-title" className="t-h2" data-motion="lift">
+          Pickup {longDate(drop.pickupStart)}
+        </h2>
+        <div className="head__intro grid justify-items-start gap-3">
+          <p>
+            {open
+              ? `Orders close ${closesPhrase(drop.closeAt, now)}. Everything is made to order, so when it's sold out, it's sold out.`
+              : "Orders for this drop are closed. Follow along on Hotplate for the next one."}
           </p>
+          {drop.isSample && <SampleStamp className="text-script-2" />}
         </div>
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-          {!drop.lines.some((l) => l.price !== null) && (
-            <p className="t-label text-oat-muted">Prices are listed on Hotplate</p>
-          )}
-          {drop.isSample && <SampleStamp className="text-stamp" />}
-        </div>
-        <BoardLines lines={drop.lines} />
-        {drop.note && <p className="t-body mt-4 text-oat-muted">{drop.note}</p>}
       </div>
 
-      <div className="lg:col-span-4 lg:col-start-9">
-        <dl>
-          <Fact term="Where">
+      <dl className="wk__facts">
+        <div>
+          <dt className="t-label">Pickup</dt>
+          <dd className="t-h4">
+            {timeWindow(drop.pickupStart, drop.pickupEnd)}
+            <span className="t-small mt-1 block normal-case">{longDate(drop.pickupStart)}</span>
+          </dd>
+        </div>
+        <div>
+          <dt className="t-label">Where</dt>
+          <dd className="t-h4">
             {site.location.city}, {site.location.region}
-            <span className="t-small mt-1 block text-oat-muted">{site.location.addressNote}</span>
-          </Fact>
-          <Fact term="Orders close">
-            {state === "open" ? (
-              <>
-                {weekday(drop.closeAt)}, {clock(drop.closeAt)}
-                {leadDays > 0 && (
-                  <span className="t-small mt-1 block text-oat-muted">
-                    {leadDays === 1 ? "One day" : `${leadDays} days`} before pickup, because everything is made to order.
-                  </span>
-                )}
-              </>
-            ) : (
-              "Closed for this drop."
+            <span className="t-small mt-1 block normal-case">{site.location.addressNote}</span>
+          </dd>
+        </div>
+        <div>
+          <dt className="t-label">Orders close</dt>
+          <dd className="t-h4">
+            {open ? `${weekday(drop.closeAt)}, ${clock(drop.closeAt)}` : "Closed"}
+            {open && days > 0 && (
+              <span className="t-small mt-1 block normal-case">
+                {days === 1 ? "One day" : `${days} days`} before pickup
+              </span>
             )}
-          </Fact>
-        </dl>
-        {state === "open" ? (
-          <OrderButton position="board" className="mt-6 w-full md:w-auto" />
-        ) : (
-          <OrderButton position="board" label="See Hotplate" className="mt-6 w-full md:w-auto" />
-        )}
+          </dd>
+        </div>
+      </dl>
+
+      <div className={`wk__cols t-label ${anyPrice ? "" : "wk--noprice"}`} aria-hidden="true">
+        <span>Item</span>
+        <span>Option</span>
+        <span>Status</span>
+        {anyPrice && <span>Price</span>}
       </div>
-    </div>
+      <ul className={anyPrice ? "" : "wk--noprice"}>
+        {drop.lines.map((l) => (
+          <li key={l.name + l.variant} className={`wk__row ${l.status === "sold-out" ? "wk__row--sold" : ""}`}>
+            <span className="rule" aria-hidden="true" data-motion="rule" />
+            <h3 className="wk__name t-h4">{l.name}</h3>
+            <span className="t-small">
+              {l.variant || " "}
+              {l.quantity !== undefined && <span className="block">{l.quantity} baked</span>}
+            </span>
+            <span>{l.status !== "available" && <Status status={l.status} />}</span>
+            {anyPrice && (
+              <span className="tnum">
+                {l.price === null ? <span className="t-small">On Hotplate</span> : <span className="t-h4">{money(l.price)}</span>}
+              </span>
+            )}
+          </li>
+        ))}
+      </ul>
+      <div className="wk__foot">
+        <span className="rule" aria-hidden="true" data-motion="rule" />
+        <p className="t-small max-w-[48ch]">
+          {anyPrice ? "Checkout happens on Hotplate." : "Prices and checkout are on Hotplate."}
+        </p>
+        <OrderButton position="board" label={open ? "Order on Hotplate" : "See Hotplate"} />
+      </div>
+    </>
   );
 }
 
-/* ---------- How it works ---------- */
+/* ---------- How it works: three panels ---------- */
 
 export function Steps({ drops }: { drops: ResolvedDrop[] }) {
   const now = useNow();
   const drop = currentDrop(drops, now);
   const open = drop && stateOf(drop, now) === "open";
-  const leadDays = drop ? Math.round((drop.pickupStart - drop.closeAt) / 86_400_000) : 0;
+  const days = drop ? leadDays(drop) : 0;
 
   const steps = [
     {
@@ -195,93 +177,104 @@ export function Steps({ drops }: { drops: ResolvedDrop[] }) {
     {
       title: "Order ahead",
       body:
-        leadDays > 0
-          ? `Everything is made to order, so orders close ${leadDays === 1 ? "a day" : `${leadDays} days`} before pickup. When it's sold out, it's sold out.`
+        days > 0
+          ? `Everything is made to order, so orders close ${days === 1 ? "a day" : `${days} days`} before pickup. When it's sold out, it's sold out.`
           : "Everything is made to order, so orders close before each pickup. When it's sold out, it's sold out.",
     },
   ];
 
   return (
-    <ol className="mt-10 grid gap-x-10 md:grid-cols-3">
-      {steps.map((s, i) => (
-        <li key={s.title} className="grid grid-cols-[3rem_1fr] border-t-[3px] border-rye pb-8 pt-4 md:block">
-          <span aria-hidden="true" className="t-h2 block text-brick md:mb-4">
-            {i + 1}
-          </span>
-          <div>
-            <h3 className="t-h3">{s.title}</h3>
-            <p className="t-body mt-2 max-w-[36ch] text-rye-2">{s.body}</p>
-          </div>
-        </li>
-      ))}
-    </ol>
+    <div className="how__run" style={{ ["--panels" as string]: steps.length }}>
+      <div className="how__stage">
+        <ol className="how__track">
+          {steps.map((s, i) => (
+            <li key={s.title} className="how__panel">
+              <p className="how__num" aria-hidden="true">
+                {i + 1}
+              </p>
+              <div className="how__copy">
+                <h3 className="t-h4">
+                  <span className="sr-only">Step {i + 1}: </span>
+                  {s.title}
+                </h3>
+                <p>{s.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
   );
 }
 
-/* ---------- Holiday ---------- */
+/* ---------- Holiday band ---------- */
 
-export function Holiday({ holiday, standing }: { holiday: ResolvedHoliday | null; standing: React.ReactNode }) {
+export function Holiday({ holiday }: { holiday: ResolvedHoliday | null }) {
   const now = useNow();
   const live = holiday && holiday.pickupEnd > now ? holiday : null;
-  if (!live) return <>{standing}</>;
+
+  if (!live) {
+    return (
+      <>
+        <div className="hol__body">
+          <p className="t-label">Holiday specials</p>
+          <h2 id="holiday-title" className="t-h2" data-motion="lift">
+            {site.holidayStanding.heading}
+          </h2>
+          <p className="hol__lead">{site.holidayStanding.body}</p>
+          <p className="hol__lead">{site.holidayStanding.follow}</p>
+          <OrderButton position="holiday" label="Follow on Hotplate" tone="light" />
+        </div>
+        <Flower className="hol__flower" />
+      </>
+    );
+  }
+
   const open = stateOf(live, now) === "open";
+  const items = [
+    ...live.lines.map((l) => ({ name: l.name, variant: l.variant, price: l.price, description: "" })),
+    ...live.specials.map((s) => ({ name: s.name, variant: "", price: s.price, description: s.description })),
+  ];
 
   return (
-    <div className="grid gap-10 lg:grid-cols-12">
-      <div className="lg:col-span-6">
-        <p className="t-label text-brick">Holiday menu</p>
-        <h2 id="holiday-title" className="t-h2 mt-3">
+    <>
+      <div className="hol__body">
+        <p className="t-label">Holiday menu {live.isSample && <SampleStamp className="ml-2" />}</p>
+        <h2 id="holiday-title" className="t-h2" data-motion="lift">
           {live.title}
         </h2>
-        {live.isSample && (
-          <p className="mt-5">
-            <SampleStamp className="text-brick" />
-          </p>
-        )}
-        <dl className="mt-8 grid grid-cols-2 gap-6 border-t-[3px] border-rye pt-4">
-          <div>
-            <dt className="t-label text-rye-2">Order by</dt>
-            <dd className="t-h3 mt-2">
-              {open ? (
-                <>
-                  {dayDate(live.closeAt)}
-                  <span className="t-small mt-1 block font-normal normal-case">{clock(live.closeAt)}</span>
-                </>
-              ) : (
-                "Closed"
-              )}
-            </dd>
-          </div>
-          <div>
-            <dt className="t-label text-rye-2">Pickup</dt>
-            <dd className="t-h3 mt-2">
-              {dayDate(live.pickupStart)}
-              <span className="t-small mt-1 block font-normal normal-case">{timeWindow(live.pickupStart, live.pickupEnd)}</span>
-            </dd>
-          </div>
-        </dl>
-        {open && <OrderButton position="holiday" className="mt-8" />}
+        <p className="hol__lead">{site.holidayStanding.body}</p>
+        <ul className="hol__rows">
+          {items.map((l) => (
+            <li key={l.name + l.variant} className="hol__row">
+              <span className="rule" aria-hidden="true" data-motion="rule" />
+              <span>
+                <span className="t-h4">{l.name}</span>
+                {l.variant && <span className="t-label ml-2 whitespace-nowrap">{l.variant}</span>}
+                {l.description && <span className="t-small mt-1 block">{l.description}</span>}
+              </span>
+              <span className="tnum t-small">{l.price === null ? "On Hotplate" : money(l.price)}</span>
+            </li>
+          ))}
+        </ul>
+        {open && <OrderButton position="holiday" tone="light" />}
       </div>
-      <ul className="lg:col-span-5 lg:col-start-8">
-        {[...live.lines.map((l) => ({ name: l.name, variant: l.variant, price: l.price, description: "" })),
-          ...live.specials.map((s) => ({ name: s.name, variant: "", price: s.price, description: s.description }))].map((l) => (
-          <li key={l.name + l.variant} className="flex items-baseline justify-between gap-4 border-b border-rye/25 py-3">
-            <span>
-              <span className="t-h3">{l.name}</span>
-              {l.variant && <span className="t-label ml-2 whitespace-nowrap text-rye-2">{l.variant}</span>}
-              {l.description && <span className="t-small mt-1 block text-rye-2">{l.description}</span>}
-            </span>
-            <span className="tnum shrink-0">
-              {l.price === null ? (
-                <span className="t-label text-rye-2">Price on Hotplate</span>
-              ) : (
-                <span className="t-h3 text-brick">{money(l.price)}</span>
-              )}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </div>
+      <div className="hol__dates">
+        <div>
+          <span className="rule" aria-hidden="true" data-motion="rule" />
+          <p className="t-label">Order by</p>
+          <p className="t-h4 mt-2">{open ? dayDate(live.closeAt) : "Closed"}</p>
+          {open && <p className="t-small">{clock(live.closeAt)}</p>}
+        </div>
+        <div>
+          <span className="rule" aria-hidden="true" data-motion="rule" />
+          <p className="t-label">Pickup</p>
+          <p className="t-h4 mt-2">{dayDate(live.pickupStart)}</p>
+          <p className="t-small">{timeWindow(live.pickupStart, live.pickupEnd)}</p>
+        </div>
+        <Flower className="hol__flower" />
+      </div>
+    </>
   );
 }
 
@@ -290,17 +283,13 @@ export function Holiday({ holiday, standing }: { holiday: ResolvedHoliday | null
 export function StickyOrderBar({ drops }: { drops: ResolvedDrop[] }) {
   const now = useNow();
   const [show, setShow] = useState(false);
-  const raf = useRef(0);
 
   useEffect(() => {
     const target = document.getElementById("hero-order");
     if (!target) return;
-    const io = new IntersectionObserver(([entry]) => {
-      cancelAnimationFrame(raf.current);
-      raf.current = requestAnimationFrame(() =>
-        setShow(!entry.isIntersecting && entry.boundingClientRect.top < 0),
-      );
-    });
+    const io = new IntersectionObserver(([entry]) =>
+      setShow(!entry.isIntersecting && entry.boundingClientRect.top < 0),
+    );
     io.observe(target);
     return () => io.disconnect();
   }, []);
@@ -309,27 +298,23 @@ export function StickyOrderBar({ drops }: { drops: ResolvedDrop[] }) {
   const open = drop && stateOf(drop, now) === "open";
 
   return (
-    <div
-      className={`fixed inset-x-0 bottom-0 z-40 border-t-[3px] border-rye bg-butter pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 transition-transform duration-200 ease-out md:hidden ${
-        show ? "translate-y-0" : "translate-y-full"
-      }`}
-      aria-hidden={!show}
-      inert={!show}
-    >
-      <div className="wrap flex items-center justify-between gap-4">
-        <p className="t-label text-[1.0625rem] leading-tight">
-          {open ? (
-            <>
-              Orders close
-              <br />
-              {closesPhrase(drop.closeAt, now)}
-            </>
-          ) : (
-            site.shortName
-          )}
-        </p>
-        <OrderButton position="sticky" label={open ? "Order on Hotplate" : "See Hotplate"} />
-      </div>
+    <div className={`sticky-bar ${show ? "is-shown" : ""}`} aria-hidden={!show} inert={!show}>
+      <p className="t-small leading-tight">
+        {open ? (
+          <>
+            Orders close
+            <br />
+            <strong className="font-semibold">{closesPhrase(drop.closeAt, now)}</strong>
+          </>
+        ) : (
+          site.name
+        )}
+      </p>
+      <OrderButton
+        position="sticky"
+        label={open ? "Order on Hotplate" : "See Hotplate"}
+        className="shrink-0 whitespace-nowrap"
+      />
     </div>
   );
 }

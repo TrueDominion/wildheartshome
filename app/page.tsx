@@ -1,13 +1,18 @@
-import { Board, HeroDropLine, Holiday, Steps, StickyOrderBar } from "@/components/DropAware";
+import { HeroDrop, Holiday, StickyOrderBar, Steps, ThisWeek } from "@/components/DropAware";
 import { Faq } from "@/components/Faq";
+import { Flower } from "@/components/Flower";
 import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { Menu } from "@/components/Menu";
+import { MenuBench } from "@/components/MenuBench";
+import { Motion } from "@/components/Motion";
+import { Nav } from "@/components/Nav";
 import { NowProvider } from "@/components/Now";
 import { OrderButton } from "@/components/OrderButton";
 import { PhotoSlot } from "@/components/PhotoSlot";
+import { menu } from "@/content/menu";
 import { site } from "@/content/site";
+import type { Photo } from "@/content/types";
 import { resolvedDrops, resolvedHoliday } from "@/lib/drops";
+import { orderUrl } from "@/lib/order";
 
 function jsonLd() {
   return {
@@ -31,136 +36,209 @@ function jsonLd() {
   };
 }
 
+
+/** The peach panel with her flower, shown wherever a photo has not been taken yet. */
+function ArtPanel({ photo, label, priority = false }: { photo: Photo; label: string; priority?: boolean }) {
+  return (
+    <div className="op__art" role="img" aria-label={`Photo to come: ${photo.alt}`}>
+      <Flower className="op__art-flower" priority={priority} />
+      <span className="op__art-note t-label" aria-hidden="true">
+        {label} · photo to come · shot {String(photo.shot).padStart(2, "0")}
+      </span>
+    </div>
+  );
+}
+
 export default function Home() {
   const builtAt = Date.now();
+  const rows = menu.flatMap((c) => c.items.map((item) => ({ ...item, category: c.name })));
+  const wm = site.hero.wordmark;
   return (
     <NowProvider initial={builtAt}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd()) }} />
       <a
         href="#main"
-        className="t-label sr-only z-50 bg-rye px-4 py-3 text-oat focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+        className="t-label sr-only z-[70] bg-dark px-4 py-3 text-light focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
       >
         Skip to content
       </a>
-      <Header />
+      <Nav />
 
       <main id="main">
-        {/* Hero */}
-        <section id="top" aria-labelledby="hero-title" className="pb-16 pt-8 md:pb-24 md:pt-14">
-          <div className="wrap grid gap-10 md:grid-cols-12 md:items-end">
-            <div className="md:col-span-7">
-              <p className="t-label text-rye-2">{site.hero.eyebrow}</p>
-              <h1 id="hero-title" className="t-display mt-4">
-                <span className="sr-only">{site.name}: </span>
-                {site.hero.headline[0]}{" "}
-                <span className="block text-brick">{site.hero.headline[1]}</span>
-              </h1>
-              <p className="t-lede mt-6 max-w-[34ch]">{site.hero.lede}</p>
-              <OrderButton id="hero-order" position="hero" className="mt-8" />
-              <HeroDropLine drops={resolvedDrops} />
+        {/* Opening: width filling wordmark, then a dark band rising as a dome */}
+        <section id="top" aria-labelledby="hero-title">
+          <div id="opening">
+            <div className="op__hold">
+              <div className="op__top">
+                <h1 id="hero-title" className="op__mark t-mark" style={{ ["--len" as string]: 11 }}>
+                  <span className="op__w">
+                    <span className="op__word">{wm.first}</span>
+                  </span>{" "}
+                  <span className="op__and">{wm.script}</span>{" "}
+                  <span className="op__w op__line2">
+                    <span className="op__word">{wm.second}</span>
+                  </span>
+                </h1>
+                <div className="op__tag grid gap-3">
+                  <p className="t-label">{site.hero.eyebrow}</p>
+                  <p className="t-h4">{site.hero.tagline}</p>
+                  <p className="max-w-[40ch]">{site.hero.lede}</p>
+                </div>
+                <div className="op__right">
+                  <HeroDrop drops={resolvedDrops} />
+                  <div className="op__actions">
+                    <OrderButton id="hero-order" position="hero" />
+                    <a className="link" href="#this-week">
+                      See this week
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div className="op__photo">
+                {site.hero.photo.src ? (
+                  <PhotoSlot photo={site.hero.photo} sizes="100vw" priority />
+                ) : (
+                  <ArtPanel photo={site.hero.photo} label="Hero" priority />
+                )}
+              </div>
             </div>
-            <div className="md:col-span-5">
-              <PhotoSlot
-                photo={site.hero.photo}
-                ratio="aspect-[4/5]"
-                emptyRatio="aspect-[3/2] md:aspect-[4/5]"
-                sizes="(min-width: 768px) 40vw, 100vw"
-                priority
-              />
+            <div className="op__night on-dark">
+              <p className="t-label">{site.night.label}</p>
+              <p className="op__statement">{site.night.statement}</p>
+              <p
+                className="op__ribbon t-script ribbon-move"
+                aria-hidden="true"
+                style={{ ["--len" as string]: site.night.ribbon.length }}
+              >
+                {site.night.ribbon}
+              </p>
+              <p className="t-label">
+                {site.location.city}, {site.location.region}
+              </p>
             </div>
           </div>
         </section>
 
         {/* This week's drop */}
-        <section id="this-week" aria-labelledby="this-week-title" className="on-rye section-pad bg-rye text-oat">
-          <div className="wrap">
-            <Board drops={resolvedDrops} />
-          </div>
+        <section id="this-week" className="sec" aria-labelledby="this-week-title">
+          <ThisWeek drops={resolvedDrops} />
         </section>
 
-        <Menu />
+        {/* Menu: rows beside a held frame */}
+        <section id="menu" className="sec border-t border-dark/15" aria-labelledby="menu-title">
+          <header className="bench__head">
+            <p className="t-label">{site.footerLine}</p>
+            <h2 id="menu-title" className="t-h2" data-motion="lift">
+              The menu
+            </h2>
+            <p className="head__intro">{site.sections.menuIntro}</p>
+          </header>
+          <MenuBench rows={rows} />
+        </section>
 
-        {/* Stall photo band. Collapses to a thin strip until the real photo exists. */}
-        <PhotoSlot
-          photo={site.stallPhoto}
-          ratio="aspect-[21/9]"
-          emptyRatio="h-18"
-          sizes="100vw"
-          className="max-h-[70vh] w-full"
-        />
-
-        {/* Holiday */}
-        <section id="holiday" aria-labelledby="holiday-title" className="section-pad bg-oat-2">
-          <div className="wrap">
-            <Holiday
-              holiday={resolvedHoliday}
-              standing={
-                <div className="max-w-[60ch]">
-                  <h2 id="holiday-title" className="t-h2">
-                    {site.holidayStanding.heading}
-                  </h2>
-                  <p className="t-lede mt-6">{site.holidayStanding.body}</p>
-                  <p className="t-body mt-4 text-rye-2">{site.holidayStanding.follow}</p>
-                  <OrderButton position="holiday" label="Follow on Hotplate" className="mt-8" />
-                </div>
-              }
-            />
-          </div>
+        {/* Holiday band */}
+        <section id="holiday" className="sec" aria-labelledby="holiday-title">
+          <Holiday holiday={resolvedHoliday} />
         </section>
 
         {/* How it works */}
-        <section id="how" aria-labelledby="how-title" className="section-pad">
-          <div className="wrap">
-            <h2 id="how-title" className="t-h2">
+        <section id="how" aria-labelledby="how-title">
+          <div className="head sec !pb-[clamp(36px,5vw,64px)]">
+            <p className="t-label">Ordering</p>
+            <h2 id="how-title" className="t-h2" data-motion="lift">
               How it works
             </h2>
-            <Steps drops={resolvedDrops} />
+            <p className="head__intro">{site.sections.howIntro}</p>
           </div>
+          <Steps drops={resolvedDrops} />
         </section>
 
-        {/* Her story */}
-        <section id="story" aria-labelledby="story-title" className="section-pad border-t-[3px] border-rye">
-          <div className="wrap grid gap-10 md:grid-cols-12">
-            <div className="md:col-span-5">
-              <PhotoSlot
-                photo={site.story.photo}
-                ratio="aspect-[3/4]"
-                emptyRatio="aspect-[3/2] md:aspect-[3/4]"
-                sizes="(min-width: 768px) 40vw, 100vw"
-              />
+        {/* Her story: a letter beside her photo */}
+        <section id="story" className="sec on-dark" aria-labelledby="story-title">
+          <p
+            className="t-script ribbon-move pb-6 text-center"
+            aria-hidden="true"
+            style={{ ["--len" as string]: site.story.heading.length }}
+          >
+            {site.story.heading.toLowerCase()}
+          </p>
+          <article className="nt__feature">
+            <div className="nt__frame">
+              {site.story.photo.src ? (
+                <PhotoSlot photo={site.story.photo} ratio="3 / 4" sizes="(min-width: 768px) 40vw, 100vw" />
+              ) : (
+                <div className="relative aspect-[4/3] md:aspect-[3/4]">
+                  <ArtPanel photo={site.story.photo} label="Portrait" />
+                </div>
+              )}
             </div>
-            <div className="md:col-span-6 md:col-start-7 md:self-center">
-              <h2 id="story-title" className="t-label text-brick">
+            <div className="nt__letter surface">
+              <h2 id="story-title" className="t-label">
                 {site.story.heading}
               </h2>
-              <blockquote className="t-quote mt-5 max-w-[22ch]">
-                <p>{site.story.signatureLine}</p>
-              </blockquote>
+              <p className="nt__q">{site.story.signatureLine}</p>
               {site.story.paragraphs.map((p) => (
-                <p key={p.slice(0, 20)} className="t-body mt-6 max-w-[56ch]">
+                <p key={p.slice(0, 20)} className="nt__a">
                   {p}
                 </p>
               ))}
-              <p className="t-quote mt-8 text-[2rem] text-brick">{site.story.signedAs}</p>
+              <p className="nt__sign">{site.story.signedAs}</p>
             </div>
-          </div>
+          </article>
         </section>
 
         <Faq />
 
-        {/* Closing */}
-        <section aria-labelledby="closing-title" className="border-t-[3px] border-rye py-16 md:py-24">
-          <div className="wrap md:flex md:items-end md:justify-between md:gap-10">
-            <h2 id="closing-title" className="t-h2 md:max-w-[12ch]">
-              {site.closing.heading}
-            </h2>
-            <OrderButton position="closing" className="mt-8 md:mt-0" />
+        {/* Closing card over the stall photo */}
+        <section id="order" aria-labelledby="order-title">
+          <div className="ct__room">
+            {site.stallPhoto.src ? (
+              <PhotoSlot photo={site.stallPhoto} sizes="100vw" />
+            ) : (
+              <ArtPanel photo={site.stallPhoto} label="Pickup table" />
+            )}
+          </div>
+          <div className="ct__card surface">
+            <div className="ct__main">
+              <p className="t-label">Order</p>
+              <h2 id="order-title" className="t-h2">
+                {site.closing.heading}
+              </h2>
+              <p>{site.sections.closingNote}</p>
+              <OrderButton position="closing" />
+            </div>
+            <dl className="ct__info">
+              <div>
+                <dt className="t-label">Pickup</dt>
+                <dd>
+                  {site.location.city}, {site.location.region}
+                  <span className="t-small block">{site.location.addressNote}</span>
+                </dd>
+              </div>
+              <div>
+                <dt className="t-label">Order</dt>
+                <dd>
+                  <a className="link" href={orderUrl("closing")} data-order="closing">
+                    Hotplate storefront
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt className="t-label">Questions</dt>
+                <dd>
+                  <a className="link break-all" href={`mailto:${site.email}`}>
+                    {site.email}
+                  </a>
+                </dd>
+              </div>
+            </dl>
           </div>
         </section>
       </main>
 
       <Footer />
       <StickyOrderBar drops={resolvedDrops} />
+      <Motion />
     </NowProvider>
   );
 }
